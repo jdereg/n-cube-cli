@@ -7,6 +7,8 @@ import org.springframework.shell.Bootstrap
 import org.springframework.shell.core.CommandResult
 import org.springframework.shell.core.JLineShellComponent
 
+/* Created by dben and ihiggins */
+
 @CompileStatic
 
 class NceCommandTest {
