@@ -3,9 +3,8 @@ package com.cedarsoftware.ncubecli.commands
 import com.cedarsoftware.ncube.NCubeInfoDto
 import com.cedarsoftware.util.io.JsonReader
 import com.cedarsoftware.util.io.JsonWriter
-import com.cedarsoftware.api.NCubeEditorApi
-import com.gaic.bue.devops.api.UpdatePomApi
-import com.cedarsoftware.api.VersionType
+import com.cedarsoftware.ncubecli.api.NCubeEditorApi
+import com.cedarsoftware.ncubecli.api.VersionType
 import org.apache.http.cookie.Cookie
 import org.apache.http.impl.cookie.BasicClientCookie
 import org.apache.logging.log4j.LogManager
