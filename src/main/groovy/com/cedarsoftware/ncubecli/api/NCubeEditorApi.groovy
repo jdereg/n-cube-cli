@@ -36,13 +36,15 @@ import java.util.*
 @CompileStatic
 
 class NCubeEditorApi {
+    // Accessor methods for Spring variables
     private String requestURL
     String getRequestURL() { return requestURL }
     void   setRequestURL(String requestURL) { this.requestURL = requestURL }
 
     private final HttpHost proxyHost
-    HttpHost getProxyHost() {
-        return proxyHost
+
+    NCubeEditorApi(HttpHost proxyHost) {
+        this.proxyHost = proxyHost
     }
 
     private final String commandPrefix = "cmd/ncubeController/"
