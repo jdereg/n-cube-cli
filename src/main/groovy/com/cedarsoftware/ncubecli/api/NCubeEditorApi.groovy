@@ -297,6 +297,10 @@ class NCubeEditorApi {
      * @param app the application to retrieve the latest version for
      * @return the latest version of an application ex. "1.6.1-SNAPSHOT"
      */
+
+    // TODO: This function will not always return the latest version; a patch for example could appear ahead.
+    // Potential solution is to sort numeric on x.y.z on server side
+
     String getLatestVersion(String app){
         String getUrl = requestURL+commandPrefix+"getVersions"
         String version = null
