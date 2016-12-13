@@ -1,0 +1,462 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.gaic.bue</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>2.3.4</version>
+    </parent>
+
+
+    <name>cube-resources</name>
+    <url>http://maven.apache.org</url>
+    <groupId>com.gaic.bue.uwd</groupId>
+    <artifactId>cube-resources</artifactId>
+    <version>1.62.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <targetJdk>1.7</targetJdk>
+        <version.cube.impl>1.62.1-SNAPSHOT</version.cube.impl>
+        <version.powermock>1.6.2</version.powermock>
+        <version.mockito>1.10.19</version.mockito>
+        <version.junit>4.12</version.junit>
+        <version.cucumber>1.2.4</version.cucumber>
+    </properties>
+
+    <scm>
+        <url>https://github.gaig.com/CUBE/cube-resources</url>
+        <connection>scm:git:ssh://git@cvgapgithub01/CUBE/cube-resources.git</connection>
+        <developerConnection>scm:git:ssh://git@cvgapgithub01/CUBE/cube-resources.git</developerConnection>
+    </scm>
+
+    <build>
+        <sourceDirectory>src/main/private/groovy</sourceDirectory>
+        <testSourceDirectory>src/test/groovy</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/private/groovy</directory>
+                <excludes>
+                    <exclude>**/*.groovy</exclude>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/public/json</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/groovy</directory>
+                <excludes>
+                    <exclude>**/*.groovy</exclude>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <skipTests>false</skipTests>
+                    <argLine>${jacocoArgLine-int} -XX:MaxPermSize=512m -Xmx2048m</argLine>
+                    <includes>
+                        <include>*.java</include>
+                        <include>*.groovy</include>
+                    </includes>
+                    <excludedGroups>com.gaic.bue.uwd.ra.test.base.UnitTestCategory</excludedGroups>
+                    <excludes>
+                        <exclude>**/cucumber/**/*Test*</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <skipTests>false</skipTests>
+                    <argLine>${jacocoArgLine} -XX:MaxPermSize=512m -Xmx2048m</argLine>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <groups>com.gaic.bue.uwd.ra.test.base.UnitTestCategory</groups>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cucumber-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/cucumber/**/*UnitTestRunner*</include>
+                            </includes>
+                            <excludedGroups>com.gaic.bue.uwd.ra.test.base.UnitTestCategory,com.gaic.bue.uwd.ra.test.base.IntegrationTestCategory</excludedGroups>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <tasks>
+                                <delete dir="${basedir}/target/gzip" />
+                                <mkdir dir="${basedir}/target/gzip" />
+                                <property name="compile.classpath" refid="maven.compile.classpath" />
+                                <taskdef name="GzipCdnTask" classpathref="maven.compile.classpath" classname="deployment.GzipCdnTask" />
+
+                                <GzipCdnTask todir="${basedir}/target/gzip" preservelastmodified="true" overwrite="true">
+                                    <fileset dir="${basedir}/src/main/public">
+                                        <exclude name="**/*.js" />
+                                        <include name="**/*.css" />
+                                        <include name="**/*.html" />
+                                        <include name="**/*.xml" />
+                                    </fileset>
+                                </GzipCdnTask>
+
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptor>src/assembly/cdn.xml</descriptor>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                        <configuration>
+                            <finalName>unwanted</finalName>
+                            <classifier>unwanted</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <!-- Bind Groovy Eclipse Compiler -->
+                    <compilerId>groovy-eclipse-compiler</compilerId>
+                    <source>${targetJdk}</source>
+                    <target>${targetJdk}</target>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-batch</artifactId>
+                        <!-- this version needs to match the version of groovy-all -->
+                        <version>2.4.3-01</version>
+                    </dependency>
+                    <!-- Define dependency to Groovy Eclipse Compiler (as it's referred in compilerId) -->
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-compiler</artifactId>
+                        <version>2.9.2-01</version>
+                        <!-- 						<version>2.7.0-01</version> -->
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
+                <configuration>
+                    <excludes>
+                        <exclude>deployment/**/*</exclude>
+                    </excludes>
+                    <propertyName>jacocoArgLine</propertyName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>integration-report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/jacoco-int.exec</dataFile>
+                            <outputDirectory>${project.build.directory}/site/jacoco-int</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco-int.exec</destFile>
+                            <propertyName>jacocoArgLine-int</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalProjectnatures>
+                        <projectnature>org.eclipse.jdt.groovy.core.groovyNature</projectnature>
+                    </additionalProjectnatures>
+                    <sourceIncludes>
+                        <sourceInclude>**/*.groovy</sourceInclude>
+                        <sourceInclude>**/*.java</sourceInclude>
+                    </sourceIncludes>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+            <!-- 			<plugin> -->
+            <!-- 				<groupId>org.codehaus.mojo</groupId> -->
+            <!-- 				<artifactId>build-helper-maven-plugin</artifactId> -->
+            <!-- 				<version>1.9.1</version> -->
+            <!-- 				<executions> -->
+            <!-- 					<execution> -->
+            <!-- 						<id>add-test-source</id> -->
+            <!-- 						<phase>generate-test-sources</phase> -->
+            <!-- 						<goals> -->
+            <!-- 							<goal>add-test-source</goal> -->
+            <!-- 						</goals> -->
+            <!-- 						<configuration> -->
+            <!-- 							<sources> -->
+            <!-- 								<source>src/test/groovy</source> -->
+            <!-- 							</sources> -->
+            <!-- 						</configuration> -->
+            <!-- 					</execution> -->
+            <!-- 				</executions> -->
+            <!-- 			</plugin> -->
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            build-helper-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.5,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>add-test-source</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute />
+                                    </action>
+                                </pluginExecution>
+                                <!--         						<pluginExecution> -->
+                                <!--         							<pluginExecutionFilter> -->
+                                <!--         								<groupId> -->
+                                <!--         									org.codehaus.mojo -->
+                                <!--         								</groupId> -->
+                                <!--         								<artifactId> -->
+                                <!--         									build-helper-maven-plugin -->
+                                <!--         								</artifactId> -->
+                                <!--         								<versionRange> -->
+                                <!--         									[1.5,) -->
+                                <!--         								</versionRange> -->
+                                <!--         								<goals> -->
+                                <!--         									<goal>add-source</goal> -->
+                                <!--         								</goals> -->
+                                <!--         							</pluginExecutionFilter> -->
+                                <!--         							<action> -->
+                                <!--         								<execute></execute> -->
+                                <!--         							</action> -->
+                                <!--         						</pluginExecution> -->
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gaic.bue.uwd</groupId>
+            <artifactId>cube-impl</artifactId>
+            <version>${version.cube.impl}</version>
+            <type>jar</type>
+            <classifier>classes</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-templates</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-xml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.gaic.bue.uwd</groupId>
+            <artifactId>cube-impl</artifactId>
+            <version>${version.cube.impl}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${version.mockito}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${version.powermock}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${version.powermock}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-groovy</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+            <version>2.15</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
