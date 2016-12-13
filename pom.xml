@@ -18,6 +18,7 @@
         <targetJdk>1.8</targetJdk>
         <log4j2.version>2.6.2</log4j2.version>
         <jar.mainclass>com.cedarsoftware.ncubecli.Main</jar.mainclass>
+        <version.plugin.gmavenplus>1.5</version.plugin.gmavenplus>
     </properties>
 
     <dependencies>
@@ -84,6 +85,44 @@
         </resources>
 
         <plugins>
+            <!-- turn off normal compile/testCompile because we are using gmaven plus groovy compile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>${version.plugin.gmavenplus}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addSources</goal>
+                            <goal>addTestSources</goal>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>groovydoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>groovydoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
