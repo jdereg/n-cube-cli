@@ -14,19 +14,20 @@ import org.springframework.stereotype.Component
 class Banner extends DefaultBannerProvider {
     @Override
     String getBanner() {
-        // GAIG DevOps
         StringBuffer sb = new StringBuffer()
-        sb.append("   ___     _     ___    ___     ___                 ___                 " + OsUtils.LINE_SEPARATOR)
-        sb.append("  / __|   /_\\   |_ _|  / __|   |   \\   ___  __ __  / _ \\   _ __   ___" + OsUtils.LINE_SEPARATOR)
-        sb.append(" | (_ |  / _ \\   | |  | (_ |   | |) | / -_) \\ V / | (_) | | '_ \\ (_-<" + OsUtils.LINE_SEPARATOR)
-        sb.append("  \\___| /_/ \\_\\ |___|  \\___|   |___/  \\___|  \\_/   \\___/  | .__/ /__/" + OsUtils.LINE_SEPARATOR)
-        sb.append("                                                          |_|        " + OsUtils.LINE_SEPARATOR)
+        sb.append("                                         ▄▄                                      ▄▄▄▄         ██   " + OsUtils.LINE_SEPARATOR)
+        sb.append("                                         ██                                      ▀▀██         ▀▀   " + OsUtils.LINE_SEPARATOR)
+        sb.append(" ██▄████▄             ▄█████▄  ██    ██  ██▄███▄    ▄████▄              ▄█████▄    ██       ████   " + OsUtils.LINE_SEPARATOR)
+        sb.append(" ██▀   ██            ██▀    ▀  ██    ██  ██▀  ▀██  ██▄▄▄▄██            ██▀    ▀    ██         ██   " + OsUtils.LINE_SEPARATOR)
+        sb.append(" ██    ██   █████    ██        ██    ██  ██    ██  ██▀▀▀▀▀▀   █████    ██          ██         ██   " + OsUtils.LINE_SEPARATOR)
+        sb.append(" ██    ██            ▀██▄▄▄▄█  ██▄▄▄███  ███▄▄██▀  ▀██▄▄▄▄█            ▀██▄▄▄▄█    ██▄▄▄   ▄▄▄██▄▄▄" + OsUtils.LINE_SEPARATOR)
+        sb.append(" ▀▀    ▀▀              ▀▀▀▀▀    ▀▀▀▀ ▀▀  ▀▀ ▀▀▀      ▀▀▀▀▀               ▀▀▀▀▀      ▀▀▀▀   ▀▀▀▀▀▀▀▀" + OsUtils.LINE_SEPARATOR)
 
         return sb.toString()
     }
 
     @Override
     String getWelcomeMessage() {
-        return "Welcome to our utility! Type 'help' and hit ENTER for a list of commands."
+        return "Type 'help' and hit ENTER for a list of commands."
     }
 }
