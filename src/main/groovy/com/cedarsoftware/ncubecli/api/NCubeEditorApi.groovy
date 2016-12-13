@@ -10,7 +10,12 @@ import com.cedarsoftware.util.io.JsonWriter
 import groovy.transform.CompileStatic
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
-import org.apache.http.*
+import org.apache.http.Consts
+import org.apache.http.Header
+import org.apache.http.HttpHost
+import org.apache.http.HttpResponse
+import org.apache.http.HttpStatus
+import org.apache.http.NameValuePair
 import org.apache.http.client.CookieStore
 import org.apache.http.client.config.CookieSpecs
 import org.apache.http.client.config.RequestConfig
@@ -31,27 +36,25 @@ import java.util.*
 @CompileStatic
 
 class NCubeEditorApi {
-    // TODO need to config this
+    private String requestURL
+    String getRequestURL() { return requestURL }
+    void   setRequestURL(String requestURL) { this.requestURL = requestURL }
 
-    private final String requestURL="https://nce-sb.td.afg/n-cube-editor/"
+    private final HttpHost proxyHost
+    HttpHost getProxyHost() {
+        return proxyHost
+    }
+
     private final String commandPrefix = "cmd/ncubeController/"
 
-    // TODO: needs to go...  put in a spring config or properties
-    // proxy host and request url
-
-    // TODO accept string,  break up into pieces
-    private final HttpHost proxyHost = new HttpHost("squid.td.afg",3128,"http") // "http://squid.td.afg:3128"
-
     private Log log = LogFactory.getLog(NCubeEditorApi.class)
-    private CloseableHttpClient client       // TODO: not using HttpURLconnection
-    private CookieStore cookies
+    private CloseableHttpClient       client       // TODO: not using HttpURLconnection
+    private CookieStore               cookies
     private final Map<String, Object> falseType
 
     CloseableHttpClient getClient() {
         return client
     }
-
-    HttpURLConnection junk
     CookieStore getCookies() {
         return cookies
     }
