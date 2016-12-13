@@ -29,12 +29,4 @@ class CommandTest {
     static JLineShellComponent getShell() {
         return shell
     }
-
-    @Test
-    void hwTest() throws ParseException {
-        //Execute command
-        CommandResult cr = getShell().executeCommand("hw --name bob")
-        System.out.println(cr.getResult())
-        Assert.assertTrue("Command should be successful", cr.isSuccess())
-    }
 }
