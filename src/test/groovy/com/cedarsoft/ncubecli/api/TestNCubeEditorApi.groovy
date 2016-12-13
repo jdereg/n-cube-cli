@@ -14,8 +14,8 @@ class TestNCubeEditorApi {
     NCubeEditorApi nce
     private final Logger log = LogManager.getLogger(TestNCubeEditorApi.class)
 
-    final private String TEST_USER     = "jkohl2"
-    final private String TEST_PASSWORD = "bu1ldCub3u"
+    final private String TEST_USER     = "XXXXXXXXX"
+    final private String TEST_PASSWORD = "XXXXXXXXX"
 
     final private String test_app         = "Devops.Test"
     final private String test_branch      = "unit.test"
