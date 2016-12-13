@@ -1,7 +1,7 @@
 package com.cedarsoft.ncubecli.api
 
-import com.cedarsoftware.api.NCubeEditorApi
-import com.cedarsoftware.api.VersionType
+import com.cedarsoftware.ncubecli.api.NCubeEditorApi
+import com.cedarsoftware.ncubecli.api.VersionType
 import com.cedarsoftware.ncube.NCubeInfoDto
 import org.apache.http.cookie.Cookie
 import org.apache.logging.log4j.LogManager
