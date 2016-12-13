@@ -17,6 +17,6 @@ class Prompt extends DefaultPromptProvider {
     }
     @Override
     String getProviderName() {
-        return "GAIG"
-    }    // TODO: what to put?
+        return "DevOps"
+    }
 }

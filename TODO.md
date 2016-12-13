@@ -1,11 +1,11 @@
-TODO
 * Change GAIG references
-  * supplying POM info
-  * return provider name from function
-  * replace DevopsBanner/Prompt classes
-  * different CLI prompts for each app?
+  DONE supplying POM info
+  DONE return provider name from function - DevOps
+  * add DevopsBanner/Prompt classes for CubeReleaseTool
+  * add different CLI prompt for CubeReleaseTool
   * factor out updatePom method into subclass for CubeReleaseTool
-* Maven Version of n-cube-client 1.0.0, CubeReleaseTool new major  1.0.0
+DONE Maven Version of n-cube-client 1.0.0
+* Maven Version of CubeReleaseTool new major  1.0.0  (in a bit)
 DONE  namespace path
 DONE  static compile
 DONE  rename getVersions to getLatestVersion, add getVersions

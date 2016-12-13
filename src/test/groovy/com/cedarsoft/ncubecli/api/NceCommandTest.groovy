@@ -11,11 +11,11 @@ import org.springframework.shell.core.JLineShellComponent
 
 class NceCommandTest {
     private static JLineShellComponent shell
-    final private String TEST_USER = "XXXXXXXXXX" // CHECK IN AS XXXXXXXXXX
+    final private String TEST_USER     = "XXXXXXXXXX"
     final private String TEST_PASSWORD = "XXXXXXXXXX"
 
-    final private String test_app = "Devops.Test"
-    final private String test_branch = "unit.test"
+    final private String test_app       = "Devops.Test"
+    final private String test_branch    = "unit.test"
     final private String test_branch_to = "unit.test.dev"
 
     @Before
