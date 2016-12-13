@@ -3,6 +3,8 @@ package com.cedarsoftware.ncubecli.api
 import com.cedarsoftware.util.io.JsonObject
 import groovy.transform.CompileStatic
 
+/* Created by dben and ihiggins */
+
 @CompileStatic
 
 class NCEResponse {

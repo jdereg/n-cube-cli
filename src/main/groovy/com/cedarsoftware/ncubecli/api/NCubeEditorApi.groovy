@@ -33,6 +33,8 @@ import org.apache.http.message.BasicNameValuePair
 
 import java.util.*
 
+/* Created by dben and ihiggins */
+
 @CompileStatic
 
 class NCubeEditorApi {

@@ -2,6 +2,8 @@ package com.cedarsoftware.ncubecli.api
 
 import groovy.transform.CompileStatic
 
+/* Created by dben and ihiggins */
+
 @CompileStatic
 
 enum VersionType {

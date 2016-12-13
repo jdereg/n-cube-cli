@@ -7,6 +7,8 @@ import org.springframework.shell.plugin.support.DefaultBannerProvider
 import org.springframework.shell.support.util.OsUtils
 import org.springframework.stereotype.Component
 
+/* Created by dben and ihiggins */
+
 @CompileStatic
 
 @Component
