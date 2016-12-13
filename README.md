@@ -12,6 +12,14 @@ Command line interface and API for n-cube.
 3. **Run the configuration**  
 Maven will download all dependencies.
 
+4. **Configure to connect to your own n-cube environment**
+Modify the requestURL bean to your env in the src/main/resources/META-INF.spring/spring-shell-plugin.xml file:
+```xml
+    <bean id="requestURL" class="java.lang.String">
+        <constructor-arg value="https://nce-sb.yourinternaldomain/n-cube-editor/" />
+    </bean>
+```
+
 # Using this
 There are several ways to use this command line tool:
 
@@ -20,7 +28,7 @@ There are several ways to use this command line tool:
 If you've a number of commands to execute, use this approach.
 
 ```shell      
-   java -jar target/crt-0.0.15-SNAPSHOT-jar-with-dependencies.jar
+   java -jar target/n-cube-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar
                                             ▄▄                                      ▄▄▄▄         ██
                                             ██                                      ▀▀██         ▀▀
     ██▄████▄             ▄█████▄  ██    ██  ██▄███▄    ▄████▄              ▄█████▄    ██       ████
@@ -29,16 +37,16 @@ If you've a number of commands to execute, use this approach.
     ██    ██            ▀██▄▄▄▄█  ██▄▄▄███  ███▄▄██▀  ▀██▄▄▄▄█            ▀██▄▄▄▄█    ██▄▄▄   ▄▄▄██▄▄▄
     ▀▀    ▀▀              ▀▀▀▀▀    ▀▀▀▀ ▀▀  ▀▀ ▀▀▀      ▀▀▀▀▀               ▀▀▀▀▀      ▀▀▀▀   ▀▀▀▀▀▀▀▀
 
-   Welcome to this utility! Type 'help' and hit ENTER for a list of commands.
-   devops-crt> 
+   Type 'help' and hit ENTER for a list of commands.
+   n-cube-cli>
 
 ```
 
 **Run an individual command**  
 
-Format:    `java -jar crt-0.0.15-SNAPSHOT-jar-with-dependencies.jar [command] [parameters]`
+Format:    `java -jar target/n-cube-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar [command] [parameters]`
 
     
 ```shell
-    java -jar crt-0.0.15-SNAPSHOT-jar-with-dependencies.jar hw --name Dan
+    java -jar target/n-cube-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar hw --name Dan
 ```
